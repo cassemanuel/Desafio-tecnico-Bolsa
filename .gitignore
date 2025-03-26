@@ -1,0 +1,18 @@
+# build
+bin/
+obj/
+
+# configuracoes recomendadas
+
+#arquivos específicos do usuário e configurações IDE
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+#arquivos temporários do sistema operacional
+Thumbs.db
+.DS_Store
+
+# pdf com o desafio
+Desafio INOA e-mail.pdf
