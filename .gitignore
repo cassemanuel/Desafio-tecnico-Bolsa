@@ -3,8 +3,7 @@ bin/
 obj/
 
 # configuracoes recomendadas
-
-#arquivos específicos do usuário e configurações IDE
+# arquivos específicos do usuário e configurações IDE
 .vs/
 *.user
 *.suo
@@ -17,3 +16,7 @@ Thumbs.db
 # pdf com o desafio
 Desafio INOA e-mail.pdf
 Desafio INOA.csproj
+
+#pessoais
+analise.txt
+para salvar.txt
