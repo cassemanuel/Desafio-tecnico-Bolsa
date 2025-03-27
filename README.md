@@ -17,13 +17,17 @@ No arquivo MonitorB3.cs eu coloquei o intervalo de 3 minutos entre as requisiç�
 
 Lembrando que antes de você executar você tem que fazer a build e ai sim ir na pasta bin -> debugs -> net8.0 -> executar o arquivo ".exe", que no meu caso ficou "Desafio Inoa.exe".
 
-comando: dotnet build
+comando:
+
+```bash
+dotnet build
+```
 
 Este projeto utiliza a biblioteca MailKit para o envio de e-mails. Caso ainda não tenha adicionado ao seu projeto, execute o seguinte comando no terminal, na raiz do projeto:
 
 ```bash
 dotnet add package MailKit
-
+```
 
 ## Considerações finais
 Projeto divertido e que eu consegui entender um pouco de Csharp. Lembra bastante a quando eu estava implementando o jogo da forca em C++ (antes de desistir e ir pro Javascript). Acho que sei um pouco mais agora de API, disparo de e-mail e C#!
