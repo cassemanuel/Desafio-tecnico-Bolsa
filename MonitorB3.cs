@@ -4,6 +4,7 @@ using System; //tem as libs gerais
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Desafio_INOA.Services;
 
 namespace Desafio_INOA
 {
@@ -51,7 +52,7 @@ namespace Desafio_INOA
 
             Console.WriteLine("Tentando enviar o e-mail...\n"); //checagem de seguranca se chegou ate aqui
 
-            // email de teste
+            // carregar configurações do email do json
             await emailService.SendEmail(
                 config.SmtpServidor,
                 config.SmtpPorta,
@@ -63,8 +64,70 @@ namespace Desafio_INOA
                 $"O programa recebeu 3 parametros: Ativo={ativo}, Venda={precoVenda}, Compra={precoCompra}. email teste"
             );
 
-            Console.WriteLine("\nPressione qualquer tecla para sair.");
-            Console.ReadKey();
+            Console.WriteLine(
+                "\nIniciando o monitoramento contínuo (pressione Ctrl+C para sair)...\n"
+            );
+
+            // PARTE DO MONITORAMENTO E INTEGRAÇÃO COM A API
+            AlphaVantageService alphaVantageService = new AlphaVantageService();
+
+            while (true)
+            {
+                decimal? cotacaoAtual = await alphaVantageService.ObterCotacaoAsync($"{ativo}.SA"); //adicionamos .SA para as ações da B3
+
+                if (cotacaoAtual.HasValue) //verifica se deu certo a obtenção da cotação
+                {
+                    Console.WriteLine(
+                        $"[{DateTime.Now}] Cotação atual de {ativo}: {cotacaoAtual.Value:N2}" //data e hora da cotação atual
+                    );
+
+                    //lógica de comparação e envio de e-mail
+                    if (cotacaoAtual > precoVenda)
+                    {
+                        string assunto = $"ALERTA DE VENDA: {ativo} atingiu {cotacaoAtual:N2}";
+                        string corpo =
+                            $"A cotação de {ativo} subiu para {cotacaoAtual:N2}, acima do preço de venda de referência ({precoVenda:N2}).\nConsidere vender.";
+                        await emailService.SendEmail(
+                            config.SmtpServidor,
+                            config.SmtpPorta,
+                            config.SmtpSSL,
+                            config.EmailRemetente,
+                            config.SenhaRemetente,
+                            config.EmailDestino,
+                            assunto,
+                            corpo
+                        );
+                        Console.WriteLine(
+                            $"[{DateTime.Now}] E-mail de alerta de VENDA enviado para {config.EmailDestino}"
+                        );
+                    }
+                    else if (cotacaoAtual < precoCompra)
+                    {
+                        string assunto = $"ALERTA DE COMPRA: {ativo} atingiu {cotacaoAtual:N2}";
+                        string corpo =
+                            $"A cotação de {ativo} caiu para {cotacaoAtual:N2}, abaixo do preço de compra de referência ({precoCompra:N2}).\nConsidere comprar.";
+                        await emailService.SendEmail(
+                            config.SmtpServidor,
+                            config.SmtpPorta,
+                            config.SmtpSSL,
+                            config.EmailRemetente,
+                            config.SenhaRemetente,
+                            config.EmailDestino,
+                            assunto,
+                            corpo
+                        );
+                        Console.WriteLine(
+                            $"[{DateTime.Now}] E-mail de alerta de COMPRA enviado para {config.EmailDestino}"
+                        );
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"[{DateTime.Now}] Falha ao obter a cotação de {ativo}.");
+                }
+
+                await Task.Delay(TimeSpan.FromMinutes(3)); // gerencia o tempo de intervalo entre as verificações
+            }
         }
 
         static Configuracao? LerConfiguracao(string caminhoArquivo)
