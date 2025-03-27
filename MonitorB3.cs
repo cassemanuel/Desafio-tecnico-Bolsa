@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 // lembrar de dar build para passar os args direito
 using System; //tem as libs gerais
+using System.Globalization; //para usar . no lugar da ,
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -23,16 +24,34 @@ namespace Desafio_INOA
             }
 
             string ativo = args[0]; //pega o primeiro argumento
-            if (!decimal.TryParse(args[1], out decimal precoVenda)) //funçao de conversão do string para decimal
+            if ( //funçao de conversão do string para decimal
+                !decimal.TryParse(
+                    args[1],
+                    NumberStyles.Float,
+                    CultureInfo.InvariantCulture,
+                    out decimal precoVenda
+                )
+            )
             {
-                Console.WriteLine("Erro: O preço de venda deve ser um número decimal válido.");
+                Console.WriteLine(
+                    "Erro: O preço de venda deve ser um número decimal válido (use ponto como separador)."
+                );
                 return;
             }
-            if (!decimal.TryParse(args[2], out decimal precoCompra))
+            if (
+                !decimal.TryParse(
+                    args[2],
+                    NumberStyles.Float,
+                    CultureInfo.InvariantCulture,
+                    out decimal precoCompra
+                )
+            )
             {
-                Console.WriteLine("Erro: O preço de compra deve ser um número decimal válido.");
+                Console.WriteLine(
+                    "Erro: O preço de compra deve ser um número decimal válido (use ponto como separador)."
+                );
                 return;
-            }
+            } //fim funçao de conversão do string para decimal
 
             Console.WriteLine($"Monitorando o ativo: {ativo}");
             Console.WriteLine($"Preço de venda de referência: {precoVenda:N2}");
@@ -82,7 +101,6 @@ namespace Desafio_INOA
                         $"[{DateTime.Now}] Cotação atual de {ativo}: {cotacaoAtual.Value:N2}."
                     ); //data e hora da cotação atual
                     Console.WriteLine($"Próxima verificação em {tempo} minuto(s).\n");
-
 
                     //lógica de comparação e envio de e-mail
                     if (cotacaoAtual > precoVenda)
