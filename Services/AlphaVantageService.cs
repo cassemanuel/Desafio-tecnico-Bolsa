@@ -5,7 +5,7 @@ namespace Desafio_INOA.Services
 {
     public class AlphaVantageService
     {
-        private readonly string _apiKey = "INSERIR A CHAVE GERADA AQUI"; //chave gerada lá no alphavantage
+        private readonly string _apiKey = "KEY GERADA"; //chave gerada lá no alphavantage
         private readonly HttpClient _httpClient;
 
         public AlphaVantageService()
@@ -21,7 +21,7 @@ namespace Desafio_INOA.Services
                 $"https://www.alphavantage.co/query?function={function}&symbol={symbol}&outputsize={outputsize}&datatype=json&apikey={_apiKey}";
             //url modificada do exemplo da documentação para que eu possa passar meus parametros como o ativo e o intervalo
 
-            Console.WriteLine($"URL da API: {url}"); // Para depuração
+            // Console.WriteLine($"URL da API: {url}\n"); // Para depuração. desativei para execução clean do programa
 
             try //se mexe com requisicao coloca um bloco try-catch
             {

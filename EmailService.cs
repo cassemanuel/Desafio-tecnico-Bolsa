@@ -25,7 +25,7 @@ namespace Desafio_INOA // nome do projeto
             try
             {
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Monitor B3", senderEmail));
+                message.From.Add(new MailboxAddress("Monitoramento da B3", senderEmail));
                 message.To.Add(new MailboxAddress("", receiverEmail));
                 message.Subject = subject;
                 message.Body = new TextPart("plain") { Text = body };
@@ -37,12 +37,12 @@ namespace Desafio_INOA // nome do projeto
                     await client.SendAsync(message);
                     await client.DisconnectAsync(true);
 
-                    System.Console.WriteLine("E-mail enviado com sucesso!");
+                    System.Console.WriteLine("\nE-mail enviado com sucesso!\n");
                 }
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine($"Erro ao enviar e-mail: {ex.Message}");
+                System.Console.WriteLine($"\nErro ao enviar e-mail: {ex.Message}\n");
             }
         }
     }

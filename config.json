@@ -4,5 +4,5 @@
     "SmtpPorta": 465,
     "SmtpSSL": true,
     "EmailRemetente": "cssrjpv@gmail.com",
-    "SenhaRemetente": "INSERIR A SENHA AQUI"
+    "SenhaRemetente": "SENHA DE APLICATIVO"
   }

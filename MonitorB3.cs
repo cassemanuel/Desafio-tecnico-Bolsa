@@ -50,7 +50,7 @@ namespace Desafio_INOA
             //instanciando emailservice
             EmailService emailService = new EmailService();
 
-            Console.WriteLine("Tentando enviar o e-mail...\n"); //checagem de seguranca se chegou ate aqui
+            Console.WriteLine("Enviando o e-mail...\n"); //checagem de seguranca se chegou ate aqui
 
             // carregar configurações do email do json
             await emailService.SendEmail(
@@ -60,8 +60,8 @@ namespace Desafio_INOA
                 config.EmailRemetente,
                 config.SenhaRemetente,
                 config.EmailDestino,
-                "ponto de teste se recebeu 3 parametros",
-                $"O programa recebeu 3 parametros: Ativo={ativo}, Venda={precoVenda}, Compra={precoCompra}. email teste"
+                "Monitor B3 - Servidor em execução",
+                $"O programa de monitoramento está ativo e recebeu 3 parametros: Ativo={ativo}, Venda={precoVenda}, Compra={precoCompra}.\n\nVocê receberá novos e-mails assim que o programa atingir os parametro estabelecidos."
             );
 
             Console.WriteLine(
@@ -73,18 +73,21 @@ namespace Desafio_INOA
 
             while (true)
             {
+                int tempo = 3; // tempo de intervalo entre as verificações
                 decimal? cotacaoAtual = await alphaVantageService.ObterCotacaoAsync($"{ativo}.SA"); //adicionamos .SA para as ações da B3
 
                 if (cotacaoAtual.HasValue) //verifica se deu certo a obtenção da cotação
                 {
                     Console.WriteLine(
-                        $"[{DateTime.Now}] Cotação atual de {ativo}: {cotacaoAtual.Value:N2}" //data e hora da cotação atual
-                    );
+                        $"[{DateTime.Now}] Cotação atual de {ativo}: {cotacaoAtual.Value:N2}."
+                    ); //data e hora da cotação atual
+                    Console.WriteLine($"Próxima verificação em {tempo} minuto(s).\n");
+
 
                     //lógica de comparação e envio de e-mail
                     if (cotacaoAtual > precoVenda)
                     {
-                        string assunto = $"ALERTA DE VENDA: {ativo} atingiu {cotacaoAtual:N2}";
+                        string assunto = $"\nALERTA DE VENDA: {ativo} atingiu {cotacaoAtual:N2}\n";
                         string corpo =
                             $"A cotação de {ativo} subiu para {cotacaoAtual:N2}, acima do preço de venda de referência ({precoVenda:N2}).\nConsidere vender.";
                         await emailService.SendEmail(
@@ -103,7 +106,7 @@ namespace Desafio_INOA
                     }
                     else if (cotacaoAtual < precoCompra)
                     {
-                        string assunto = $"ALERTA DE COMPRA: {ativo} atingiu {cotacaoAtual:N2}";
+                        string assunto = $"\nALERTA DE COMPRA: {ativo} atingiu {cotacaoAtual:N2}\n";
                         string corpo =
                             $"A cotação de {ativo} caiu para {cotacaoAtual:N2}, abaixo do preço de compra de referência ({precoCompra:N2}).\nConsidere comprar.";
                         await emailService.SendEmail(
@@ -117,7 +120,7 @@ namespace Desafio_INOA
                             corpo
                         );
                         Console.WriteLine(
-                            $"[{DateTime.Now}] E-mail de alerta de COMPRA enviado para {config.EmailDestino}"
+                            $"\n[{DateTime.Now}] E-mail de alerta de COMPRA enviado para {config.EmailDestino}\n"
                         );
                     }
                 }
@@ -126,7 +129,7 @@ namespace Desafio_INOA
                     Console.WriteLine($"[{DateTime.Now}] Falha ao obter a cotação de {ativo}.");
                 }
 
-                await Task.Delay(TimeSpan.FromMinutes(3)); // gerencia o tempo de intervalo entre as verificações
+                await Task.Delay(TimeSpan.FromMinutes(tempo)); // se quiser altera pra FromHours ou Seconds. mas altera o texto também que avisa o tempo
             }
         }
 
