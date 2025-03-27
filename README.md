@@ -1,4 +1,4 @@
-# Desafio-tecnico-Bolsa
+# Projeto monitoramente B3
 Parte técnica de um processo seletivo onde tenho que construir um sistema que monitore ativos da B3 e envie avisos sobre quando a cotação cai ou cresce além dos níveis determinados.
 
 Projeto para aprendizado de C# !
@@ -40,7 +40,7 @@ https://www.reddit.com/r/investimentos/comments/1cvutfh/corretora_da_b3_com_api_
 https://www.reddit.com/r/investimentos/comments/i68cg1/onde_consigo_os_dados_das_a%C3%A7%C3%B5es_da_ibovespa_via/
 
 https://www.alphavantage.co/documentation/
-(toda implementação da API veio daqui! agradeço ao Reedit e Youtube)
+(toda implementação da API veio daqui! agradeço ao Reddit e Youtube)
 
 https://www.youtube.com/watch?v=0pTty4bYZC0 (implementação AlphaVantage C#)
 
@@ -49,3 +49,7 @@ https://www.youtube.com/watch?v=wUfQ1bXboCA (e mais vídeos dessa série)
 https://ironpdf.com/blog/net-help/mailkit-csharp-guide/
 
 https://propreports.atlassian.net/wiki/spaces/PR/pages/589983/Listing+Exchange+Codes
+
+
+## Contato
+Em caso de dúvidas entre em contato comigo!
