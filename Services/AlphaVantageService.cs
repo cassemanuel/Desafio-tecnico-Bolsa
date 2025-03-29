@@ -5,7 +5,7 @@ namespace Desafio_INOA.Services
 {
     public class AlphaVantageService
     {
-        private readonly string _apiKey = "KEY GERADA"; //chave gerada lá no alphavantage
+        private readonly string _apiKey = "1F9YMX4JGCCPGAUG"; //chave gerada lá no alphavantage
         private readonly HttpClient _httpClient;
 
         public AlphaVantageService()
